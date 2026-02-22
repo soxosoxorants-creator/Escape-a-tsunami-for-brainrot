@@ -1,0 +1,795 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Window = Rayfield:CreateWindow({
+   Name = "Escape A Tsunami for Brainrots",
+   Icon = 0, 
+   LoadingTitle = "Anti Cheat Bypassed",
+   LoadingSubtitle = "By Brainyrotty",
+   ShowText = "Rayfield", 
+   Theme = "Serenity - Serenity", 
+   ToggleUIKeybind = "K", 
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false 
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Escape A Tsunami Hub"
+   },
+
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "noinvitelink", -- The Discord invite code, do not include Discord.gg/. E.g. Discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the Discord every time they load it up
+   },
+
+   KeySystem = true, -
+   KeySettings = {
+      Title = "Verification System",
+      Subtitle = "Support Us",
+      Note = "Key in Description", 
+      FileName = "Key", 
+      SaveKey = true, 
+      GrabKeyFromSite = false, 
+      Key = {"subscribe1"} 
+})
+local Tab = Window:CreateTab("Balant", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Gaps")
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 1",
+   CurrentValue = false,
+   Flag = "Gap 1", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+
+local targetPosition = Vector3.new(0, 3, 150) -- Example X, Y, Z
+
+local tweenInfo = TweenInfo.new(
+    2, 
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+print("Yeeting to the safe zone...")
+tween:Play()
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 2",
+   CurrentValue = false,
+   Flag = "Gap 2", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- CHANGE THESE: Stand in the 2nd pit and use the print command to get these numbers
+local targetPosition = Vector3.new(0, 3, 300) -- Example: 2nd pit is usually ~150 studs past the 1st
+
+local tweenInfo = TweenInfo.new(
+    2.5, -- Slightly longer time since the distance is further
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+-- Safety: Temporarily anchor so you don't fall or glitch during the slide
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Reached the 2nd Safe Zone. Rare area unlocked!")
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 3",
+   CurrentValue = false,
+   Flag = "Gap 3", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+  local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Coordinates for the 3rd Safe Zone (Rare to Epic Pit)
+-- Typical Z-coordinate for this zone is around 450-600 studs
+local targetPosition = Vector3.new(0, 3, 550) 
+
+local tweenInfo = TweenInfo.new(
+    3.5, -- Increased time for the longer gap
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Safe in the 3rd zone (Epic). Watch out for fast waves!")
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 4",
+   CurrentValue = false,
+   Flag = "Gap 4", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Coordinates for the 4th Safe Zone (Epic to Legendary Pit)
+-- Z-coordinate is usually between 750 and 900 depending on the map version
+local targetPosition = Vector3.new(0, 3, 850) 
+
+local tweenInfo = TweenInfo.new(
+    4.5, -- Longer time for the long Legendary stretch
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+-- Anchoring is CRITICAL for the 4th gap to avoid tripping on the Epic/Legendary seam
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Welcome to the Legendary Zone. Don't fall in!")
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 5",
+   CurrentValue = false,
+   Flag = "Gap 5", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Coordinates for the 5th Safe Zone (Legendary to Mythic Pit)
+-- Z-coordinate is typically around 1200 depending on the map layout
+local targetPosition = Vector3.new(0, 3, 1200) 
+
+local tweenInfo = TweenInfo.new(
+    5.5, -- Adjust based on how fast the tsunami is moving
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+-- Anchoring is essential here to prevent physics glitches at high speeds
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Reached the 5th Safe Zone (Mythic). Farming efficiency increased!")
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 6",
+   CurrentValue = false,
+   Flag = "Gap 6", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+  local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Coordinates for the 6th Safe Zone (Mythic to Cosmic Pit)
+-- Z-coordinate is typically around 1650 in standard brainrot maps
+local targetPosition = Vector3.new(0, 3, 1650) 
+
+local tweenInfo = TweenInfo.new(
+    7, -- Increased time for the massive Cosmic stretch
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+-- Anchoring is mandatory here to prevent falling through the map at these distances
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Safe in the 6th Zone (Cosmic). The brainrot is getting stronger!")
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 7",
+   CurrentValue = false,
+   Flag = "Gap 7", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+  local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Coordinates for the 7th Safe Zone (Cosmic to Secret Pit)
+-- Z-coordinate is typically around 2200 in most updated brainrot maps
+local targetPosition = Vector3.new(0, 3, 2200) 
+
+local tweenInfo = TweenInfo.new(
+    8.5, -- High distance requires a longer tween to avoid detection/physics glitches
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+-- Anchoring prevents "Flinging" which often happens in the Secret zone
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Safe in the 7th Zone (Secret). This is where the real farming begins!")
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Gap 8",
+   CurrentValue = false,
+   Flag = "Gap 8", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Coordinates for the 8th Safe Zone (Secret to Celestial Pit)
+-- Z-coordinate is typically around 2750 in most brainrot map versions
+local targetPosition = Vector3.new(0, 3, 2750) 
+
+local tweenInfo = TweenInfo.new(
+    10, -- 10 seconds to cover the massive Celestial stretch safely
+    Enum.EasingStyle.Quad, 
+    Enum.EasingDirection.Out
+)
+
+local goal = {CFrame = CFrame.new(targetPosition)}
+local tween = TweenService:Create(rootPart, tweenInfo, goal)
+
+-- Anchoring is CRITICAL here; the map parts this far out can lag/glitch
+rootPart.Anchored = true
+tween:Play()
+
+tween.Completed:Connect(function()
+    rootPart.Anchored = false
+    print("Reached the 8th Safe Zone (Celestial). Peak Brainrot achieved!")
+end)
+   end,
+})
+
+
+local Tab = Window:CreateTab("Brainrots", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Helpers")
+local Toggle = Tab:CreateToggle({
+   Name = "Instant grab",
+   CurrentValue = false,
+   Flag = "Grab", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Most of these games store brainrots in a folder in Workspace
+-- Common names are "Brainrots", "Collectibles", or "Drops"
+local brainrotFolder = workspace:FindFirstChild("Brainrots") or workspace:FindFirstChild("Drops")
+
+local function grabAll()
+    if brainrotFolder then
+        for _, item in pairs(brainrotFolder:GetChildren()) do
+            -- Look for the pick-up prompt (usually E)
+            local prompt = item:FindFirstChildWhichIsA("ProximityPrompt", true)
+            if prompt then
+                -- This "fires" the prompt instantly without you holding E
+                fireproximityprompt(prompt)
+            end
+        end
+    else
+        warn("Could not find the Brainrot folder! Check the name in Explorer.")
+    end
+end
+
+-- Run it once or set it to a loop
+print("Grabbing all brainrots...")
+grabAll()
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "ESP Highest worth Brainrot",
+   CurrentValue = false,
+   Flag = "esp", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local player = game.Players.LocalPlayer
+local brainrotFolder = workspace:FindFirstChild("Brainrots") or workspace:FindFirstChild("Drops")
+
+-- The "Wave of Brainrots" high-tier list
+local RarityColors = {
+    ["Celestial"] = Color3.fromRGB(255, 0, 255), -- Pink/Purple
+    ["Infinity"] = Color3.fromRGB(0, 255, 255),  -- Cyan
+    ["Secret"] = Color3.fromRGB(255, 0, 0),      -- Red
+    ["Cosmic"] = Color3.fromRGB(0, 0, 255)       -- Blue
+}
+
+local function applyESP(item, color, name)
+    if item:FindFirstChild("BrainrotESP") then return end
+
+    -- Visual Highlight
+    local hl = Instance.new("Highlight")
+    hl.Name = "BrainrotESP"
+    hl.FillColor = color
+    hl.OutlineColor = Color3.new(1, 1, 1)
+    hl.FillTransparency = 0.4
+    hl.Parent = item
+
+    -- Text Label
+    local bg = Instance.new("BillboardGui")
+    bg.Name = "BrainrotLabel"
+    bg.AlwaysOnTop = true
+    bg.Size = UDim2.new(0, 100, 0, 50)
+    bg.Adornee = item
+    bg.Parent = item
+
+    local txt = Instance.new("TextLabel")
+    txt.Size = UDim2.new(1, 0, 1, 0)
+    txt.BackgroundTransparency = 1
+    txt.TextColor3 = color
+    txt.Text = "★ " .. name .. " ★"
+    txt.Font = Enum.Font.SourceSansBold
+    txt.TextSize = 16
+    txt.TextStrokeTransparency = 0
+    txt.Parent = bg
+end
+
+task.spawn(function()
+    while true do
+        if brainrotFolder then
+            for _, item in pairs(brainrotFolder:GetChildren()) do
+                for rarity, color in pairs(RarityColors) do
+                    -- Checks if the rarity name is in the object's name
+                    if string.find(item.Name, rarity) then
+                        applyESP(item, color, item.Name)
+                    end
+                end
+            end
+        end
+        task.wait(2)
+    end
+end)
+
+print("ESP Loaded for Wave of Brainrots. Good luck hunting Celestials!")
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   -- The function that takes place when the toggle is pressed
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Tsunami Danger Alert",
+   CurrentValue = false,
+   Flag = "Alert", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local player = game.Players.LocalPlayer
+local pGui = player:WaitForChild("PlayerGui")
+
+-- UI Creation
+local sg = Instance.new("ScreenGui", pGui)
+sg.Name = "BrainrotRadar"
+
+local msg = Instance.new("TextLabel", sg)
+msg.Size = UDim2.new(0, 350, 0, 60)
+msg.Position = UDim2.new(0.5, -175, 0.1, 0)
+msg.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+msg.TextColor3 = Color3.new(1, 1, 1)
+msg.TextScaled = true
+msg.Visible = false
+msg.Font = Enum.Font.FredokaOne -- Fits the game's style
+
+local function findWave()
+    -- Wave of Brainrots usually uses "Tsunami" or "Water"
+    return workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Water")
+end
+
+task.spawn(function()
+    while task.wait(0.1) do
+        local wave = findWave()
+        local char = player.Character
+        if wave and char and char:FindFirstChild("HumanoidRootPart") then
+            local dist = math.abs(char.HumanoidRootPart.Position.Z - wave.Position.Z)
+            
+            if dist < 1500 then
+                msg.Visible = true
+                msg.Text = "WAVE DISTANCE: " .. math.round(dist)
+                
+                -- Check for "Deadly" or "Fast" (usually Red or Purple)
+                if wave.Color == Color3.fromRGB(255, 0, 0) then
+                    msg.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+                    msg.Text = "⚠️ DEADLY WAVE: " .. math.round(dist)
+                elseif wave.Color == Color3.fromRGB(170, 0, 255) then
+                    msg.BackgroundColor3 = Color3.fromRGB(100, 0, 200)
+                    msg.Text = "⚡ ELECTRIC WAVE: " .. math.round(dist)
+                else
+                    msg.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+                end
+            else
+                msg.Visible = false
+            end
+        else
+            msg.Visible = false
+        end
+    end
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Wave Timer",
+   CurrentValue = false,
+   Flag = "Timer", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local player = game.Players.LocalPlayer
+local pGui = player:WaitForChild("PlayerGui")
+
+-- UI Creation
+local sg = Instance.new("ScreenGui", pGui)
+sg.Name = "WaveTimerUI"
+
+local timerLabel = Instance.new("TextLabel", sg)
+timerLabel.Size = UDim2.new(0, 250, 0, 50)
+timerLabel.Position = UDim2.new(0.5, -125, 0.05, 0)
+timerLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+timerLabel.BackgroundTransparency = 0.5
+timerLabel.TextColor3 = Color3.new(1, 1, 0) -- Yellow for "Wait"
+timerLabel.TextScaled = true
+timerLabel.Font = Enum.Font.FredokaOne
+timerLabel.Text = "Detecting Wave Cycle..."
+
+-- Configuration for Wave of Brainrots
+local INTERMISSION_TIME = 20 -- The average time between waves in this game
+local lastWaveTime = tick()
+local waveActive = false
+
+local function findWave()
+    return workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Water")
+end
+
+task.spawn(function()
+    while task.wait(0.1) do
+        local wave = findWave()
+        
+        if wave then
+            -- Wave is currently happening
+            waveActive = true
+            timerLabel.TextColor3 = Color3.new(1, 0, 0) -- Red for "Danger"
+            timerLabel.Text = "WAVE ACTIVE"
+            lastWaveTime = tick() -- Keep resetting the timer while wave exists
+        else
+            -- Wave is gone, we are in intermission
+            if waveActive then
+                waveActive = false
+                lastWaveTime = tick() -- Start the countdown now
+            end
+            
+            local timeSinceLastWave = tick() - lastWaveTime
+            local timeLeft = math.max(0, INTERMISSION_TIME - timeSinceLastWave)
+            
+            timerLabel.TextColor3 = Color3.new(0, 1, 0) -- Green for "Safe to Run"
+            
+            if timeLeft > 0 then
+                timerLabel.Text = string.format("Next Wave in: %.1fs", timeLeft)
+            else
+                timerLabel.Text = "WAVE IMMINENT! ⚠️"
+                timerLabel.TextColor3 = Color3.new(1, 0.5, 0) -- Orange warning
+            end
+        end
+    end
+end)
+   end,
+})
+local Tab = Window:CreateTab("Player", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("overpowerd")
+local Toggle = Tab:CreateToggle({
+   Name = "Extra Life
+   CurrentValue = false,
+   Flag = "Extra life", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hum = char:WaitForChild("Humanoid")
+
+-- Attempt to break the health cap
+hum.MaxHealth = 9e9
+hum.Health = 9e9
+
+-- Connection to keep you alive
+hum:GetPropertyChangedSignal("Health"):Connect(function()
+    if hum.Health < hum.MaxHealth then
+        hum.Health = hum.MaxHealth
+    end
+end)
+
+print("Extra Life / God Mode Active. (Note: Only works if the game uses standard damage!)")
+   end,
+})
+local Slider = Tab:CreateSlider({
+   Name = "Jump hacks",
+   Range = {0, 250},
+   Increment = 10,
+   Suffix = "Power",
+   CurrentValue = 50, -- Set to 50 (Roblox default) so you don't start at 10
+   Flag = "Slider1", 
+   Callback = function(Value)
+        -- Update the global variable so the loop below can see it
+        _G.JumpPowerValue = Value
+        
+        -- Apply it immediately to the current character
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.UseJumpPower = true
+            char.Humanoid.JumpPower = Value
+        end
+   end,
+})
+
+-- THE FORCE LOOP (Put this at the very bottom of your script)
+-- This prevents the game from resetting your jump back to default
+task.spawn(function()
+    while true do
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.UseJumpPower = true
+            -- If _G.JumpPowerValue exists, use it, otherwise use the slider's default
+            char.Humanoid.JumpPower = _G.JumpPowerValue or 50
+        end
+        task.wait(0.1)
+    end
+end)
+local Slider = Tab:CreateSlider({
+   Name = "Speed hacks",
+   Range = {0, 350}, -- Increased to 350 so you can outrun all wave types
+   Increment = 1,   -- Changed to 1 for smoother control
+   Suffix = "Speed",
+   CurrentValue = 16, -- Roblox default speed
+   Flag = "Slider2", 
+   Callback = function(Value)
+        -- Update the global variable for the loop
+        _G.SpeedHackValue = Value
+        
+        -- Apply immediately
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = Value
+        end
+   end,
+})
+
+-- THE FORCE LOOP (Place this at the bottom of your script)
+task.spawn(function()
+    while true do
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            -- This forces the speed even if the game tries to reset it
+            char.Humanoid.WalkSpeed = _G.SpeedHackValue or 16
+        end
+        task.wait(0.1)
+    end
+end)
+local Toggle = Tab:CreateToggle({
+   Name = "Infinite jump",
+   CurrentValue = false,
+   Flag = "infi jumps", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+  -- Variable to track the toggle state
+local InfiniteJumpEnabled = false
+
+-- Put this part inside your existing Toggle Callback
+-- Callback = function(Value)
+--    InfiniteJumpEnabled = Value
+-- end
+
+-- The actual logic that makes you jump in mid-air
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                -- This forces the 'Jumping' state even if the character is in mid-air
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+    end
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "No clip",
+   CurrentValue = false,
+   Flag = "clip1", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local NoclipEnabled = false
+
+-- Put this inside your Toggle Callback:
+-- NoclipEnabled = Value
+
+game:GetService("RunService").Stepped:Connect(function()
+    if NoclipEnabled then
+        local char = game.Players.LocalPlayer.Character
+        if char then
+            for _, part in pairs(char:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end
+end)
+   end,
+})
+local Tab = Window:CreateTab("Combat/HITBOXES", 4483362458) -- Title, Image
+local Toggle = Tab:CreateToggle({
+   Name = "Hitbox expander",
+   CurrentValue = false,
+   Flag = "box", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+  local HitboxEnabled = false
+local HitboxSize = Vector3.new(20, 20, 20) -- Adjust size here
+
+-- Put NoclipEnabled = Value inside your Toggle Callback
+
+task.spawn(function()
+    while true do
+        if HitboxEnabled then
+            -- In Wave of Brainrots, items are usually in workspace.Brainrots or workspace.Items
+            -- This looks for everything you can pick up
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("TouchTransmitter") then
+                    local part = v.Parent
+                    if part and part:IsA("BasePart") then
+                        part.Size = HitboxSize
+                        part.CanCollide = false -- Prevents you from bumping into the giant invisible box
+                        part.Transparency = 0.5 -- Optional: makes them look like big ghosts so you can see them
+                    end
+                end
+            end
+        end
+        task.wait(1) -- Scans for new items every second
+    end
+end)
+   end,
+})
+_G.HitboxSizeValue = 10 -- Initial value matching your CurrentValue
+
+local Slider = Tab:CreateSlider({
+   Name = "Hitbox size",
+   Range = {0, 100},
+   Increment = 10,
+   Suffix = "Size",
+   CurrentValue = 10,
+   Flag = "Slider677", 
+   Callback = function(Value)
+      _G.HitboxSizeValue = Value
+   end,
+})
+
+-- THE FORCE LOOP (Place this at the bottom of your script)
+task.spawn(function()
+    while true do
+        -- Only run if the size is greater than 0
+        if _G.HitboxSizeValue and _G.HitboxSizeValue > 0 then
+            -- Loop through items in the game
+            for _, v in pairs(workspace:GetDescendants()) do
+                -- This targets anything that can be "touched" to collect
+                if v:IsA("TouchTransmitter") then
+                    local part = v.Parent
+                    if part and part:IsA("BasePart") then
+                        -- Resizes the item to your slider value
+                        part.Size = Vector3.new(_G.HitboxSizeValue, _G.HitboxSizeValue, _G.HitboxSizeValue)
+                        part.CanCollide = false -- So you don't trip over the massive items
+                        part.Transparency = 0.7 -- Optional: makes the hitboxes easier to see
+                    end
+                end
+            end
+        end
+        task.wait(2) -- Scans for new spawns every 2 seconds to prevent lag
+    end
+end)
+local Tab = Window:CreateTab("Autos", 4483362458) -- Title, Image
+local Toggle = Tab:CreateToggle({
+   Name = "Auto Rebirth",
+   CurrentValue = false,
+   Flag = "rebirth1", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+  local AutoRebirthEnabled = false
+
+-- Put AutoRebirthEnabled = Value inside your Toggle Callback
+
+task.spawn(function()
+    while true do
+        if AutoRebirthEnabled then
+            -- This is the most common path for Rebirth Remotes
+            -- You may need to check Explorer for the exact name (e.g., "Rebirth", "AddRebirth")
+            local remote = game:GetService("ReplicatedStorage"):FindFirstChild("Rebirth", true) 
+            
+            if remote and remote:IsA("RemoteEvent") then
+                remote:FireServer()
+            elseif remote and remote:IsA("RemoteFunction") then
+                remote:InvokeServer()
+            end
+        end
+        task.wait(1) -- Adjust this based on how fast you can rebirth
+    end
+end)
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Auto collect cash",
+   CurrentValue = false,
+   Flag = "cash", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local AutoCashEnabled = false
+
+-- Put AutoCashEnabled = Value inside your Toggle Callback
+
+task.spawn(function()
+    while task.wait(0.5) do
+        if AutoCashEnabled and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            -- This looks for cash inside your base folder
+            -- Replace "YourBaseName" with the actual name or use workspace.Drops
+            for _, drop in pairs(workspace:GetDescendants()) do
+                if drop.Name == "Cash" or drop.Name == "Coin" or drop:FindFirstChild("TouchTransmitter") then
+                    -- Check if it's near your base (distance check)
+                    local dist = (player.Character.HumanoidRootPart.Position - drop.Position).Magnitude
+                    
+                    if dist < 100 and AutoCashEnabled then -- Only grabs cash within 100 studs
+                        local info = TweenInfo.new(0.3, Enum.EasingStyle.Linear)
+                        local tween = TweenService:Create(player.Character.HumanoidRootPart, info, {CFrame = drop.CFrame})
+                        
+                        tween:Play()
+                        tween.Completed:Wait() -- Wait until you actually touch the cash
+                        task.wait(0.1) 
+                    end
+                end
+                if not AutoCashEnabled then break end
+            end
+        end
+    end
+end)
+   end,
+})
