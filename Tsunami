@@ -1,10 +1,11 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Escape A Tsunami for Brainrots",
+   Name = "Escape A Tsunami | Lavender Edition",
    Icon = 0, 
-   LoadingTitle = "Anti Cheat Bypassed",
+   LoadingTitle = "Brainrot Hub Loading...",
    LoadingSubtitle = "By Brainyrotty",
+   Theme = "Lavender", -- Clean Purple/Lavender Theme
    ConfigurationSaving = {
       Enabled = true,
       FolderName = "BrainrotHub",
@@ -13,8 +14,8 @@ local Window = Rayfield:CreateWindow({
    KeySystem = true,
    KeySettings = {
       Title = "Verification System",
-      Subtitle = "Support Us",
-      Note = "Key: subscribe1", 
+      Subtitle = "Key: subscribe1",
+      Note = "Join our Discord for updates!", 
       FileName = "Key", 
       SaveKey = true, 
       GrabKeyFromSite = false, 
@@ -22,7 +23,7 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
--- // GLOBAL STATES
+-- // STATES
 local InfiniteJumpEnabled = false
 local NoclipEnabled = false
 local HitboxEnabled = false
@@ -36,18 +37,18 @@ _G.JumpPowerValue = 50
 _G.SpeedHackValue = 16
 _G.HitboxSizeValue = 10
 
--- // UI ELEMENTS (WAVE TIMER)
+-- // UI ELEMENTS
 local player = game.Players.LocalPlayer
 local pGui = player:WaitForChild("PlayerGui")
 local sg = Instance.new("ScreenGui", pGui)
-sg.Name = "TsunamiHelperUI"
+sg.Name = "TsunamiAlertUI"
 
 local alertLabel = Instance.new("TextLabel", sg)
 alertLabel.Size = UDim2.new(0, 350, 0, 60)
 alertLabel.Position = UDim2.new(0.5, -175, 0.05, 0)
-alertLabel.BackgroundTransparency = 0.3
-alertLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-alertLabel.TextColor3 = Color3.new(1,1,1)
+alertLabel.BackgroundTransparency = 0.2
+alertLabel.BackgroundColor3 = Color3.fromRGB(45, 30, 60) -- Dark Lavender
+alertLabel.TextColor3 = Color3.fromRGB(230, 200, 255) -- Light Lavender
 alertLabel.Font = Enum.Font.FredokaOne
 alertLabel.TextScaled = true
 alertLabel.Visible = false
@@ -75,7 +76,7 @@ local TabPlayer = Window:CreateTab("Player", 4483362458)
 local TabCombat = Window:CreateTab("Combat/HITBOXES", 4483362458)
 local TabAutos = Window:CreateTab("Autos", 4483362458)
 
--- // GAPS (Original Coordinates Preserved)
+-- // GAPS
 TabBalant:CreateToggle({Name = "Gap 1", Callback = function(v) if v then teleport(Vector3.new(200.62,-2.82,59.38), 2) end end})
 TabBalant:CreateToggle({Name = "Gap 2", Callback = function(v) if v then teleport(Vector3.new(283.77, -2.82, 90.03), 2.5) end end})
 TabBalant:CreateToggle({Name = "Gap 3", Callback = function(v) if v then teleport(Vector3.new(396.82, -2.82, 92.75), 3.5) end end})
@@ -89,25 +90,25 @@ TabBalant:CreateToggle({Name = "Gap 10", Callback = function(v) if v then telepo
 TabBalant:CreateToggle({Name = "Gap 11", Callback = function(v) if v then teleport(Vector3.new(3669.57, -2.82, 62.91), 10) end end})
 TabBalant:CreateToggle({Name = "Gap 12", Callback = function(v) if v then teleport(Vector3.new(4023.66, -2.82, 51.98), 10) end end})
 
--- // TAB: BRAINROTS (RESTORED ESP & FIXED TIMER)
-TabBrainrots:CreateToggle({Name = "Instant Grab (Map Only)", Callback = function(v) GrabAllEnabled = v end})
-TabBrainrots:CreateToggle({Name = "ESP Highest Worth", Callback = function(v) ESPEnabled = v end})
+-- // BRAINROT TAB
+TabBrainrots:CreateToggle({Name = "Instant Grab (No Trade Bugs)", Callback = function(v) GrabAllEnabled = v end})
+TabBrainrots:CreateToggle({Name = "ESP Best Brainrots", Callback = function(v) ESPEnabled = v end})
 TabBrainrots:CreateToggle({Name = "Tsunami Danger Alert", Callback = function(v) TsunamiAlertEnabled = v end})
 TabBrainrots:CreateToggle({Name = "Wave Timer", Callback = function(v) WaveTimerEnabled = v end})
 
--- // TAB: PLAYER
+-- // PLAYER TAB
 TabPlayer:CreateToggle({Name = "Extra Life (Semi-Immortal)", Callback = function(v) SemiImmortal = v end})
-TabPlayer:CreateSlider({Name = "Speed Hacks", Range = {0, 350}, Increment = 1, CurrentValue = 16, Callback = function(v) _G.SpeedHackValue = v end})
-TabPlayer:CreateSlider({Name = "Jump Hacks", Range = {0, 500}, Increment = 5, CurrentValue = 50, Callback = function(v) _G.JumpPowerValue = v end})
+TabPlayer:CreateSlider({Name = "Speed Hacks", Range = {16, 350}, Increment = 1, CurrentValue = 16, Callback = function(v) _G.SpeedHackValue = v end})
+TabPlayer:CreateSlider({Name = "Jump Hacks", Range = {50, 500}, Increment = 5, CurrentValue = 50, Callback = function(v) _G.JumpPowerValue = v end})
 TabPlayer:CreateToggle({Name = "Infinite Jump", Callback = function(v) InfiniteJumpEnabled = v end})
 TabPlayer:CreateToggle({Name = "No Clip", Callback = function(v) NoclipEnabled = v end})
 
--- // TAB: COMBAT & AUTOS
+-- // COMBAT & AUTOS
 TabCombat:CreateToggle({Name = "Hitbox Expander", Callback = function(v) HitboxEnabled = v end})
 TabCombat:CreateSlider({Name = "Hitbox Size", Range = {10, 100}, Increment = 2, CurrentValue = 10, Callback = function(v) _G.HitboxSizeValue = v end})
 TabAutos:CreateToggle({Name = "Auto Rebirth", Callback = function(v) AutoRebirthEnabled = v end})
 
--- // CORE ENGINE
+-- // MAIN ENGINE
 local lastWaveTime = tick()
 local waveActive = false
 
@@ -117,77 +118,71 @@ task.spawn(function()
         local hum = char and char:FindFirstChildOfClass("Humanoid")
         local root = char and char:FindFirstChild("HumanoidRootPart")
         
-        -- Improved Tsunami Detection
-        local tsunami = workspace:FindFirstChild("Tsunami", true) or workspace:FindFirstChild("Water", true) or workspace:FindFirstChild("TsunamiWave", true)
+        -- Better Tsunami Search
+        local tsunami = workspace:FindFirstChild("Tsunami", true) or workspace:FindFirstChild("TsunamiPart", true)
 
-        -- Extra Life (Semi-Immortal) Fixed Logic
+        -- Health Logic
         if SemiImmortal and hum then
             hum.MaxHealth = 999999
             hum.Health = 999999
-            if char:FindFirstChild("ForceField") == nil then
-                Instance.new("ForceField", char).Visible = false
-            end
-        elseif not SemiImmortal and char:FindFirstChild("ForceField") then
-            char.ForceField:Destroy()
         end
 
-        if hum then 
-            hum.WalkSpeed = _G.SpeedHackValue 
-            hum.JumpPower = _G.JumpPowerValue 
-            hum.UseJumpPower = true 
-        end
+        -- Stats
+        if hum then hum.WalkSpeed = _G.SpeedHackValue hum.JumpPower = _G.JumpPowerValue hum.UseJumpPower = true end
 
-        -- Instant Grab (Map Spawns Only - Bypasses Long Press)
+        -- FIXED INSTANT GRAB (Ignores Player Bases/Trades)
         if GrabAllEnabled then
             for _, item in pairs(workspace:GetDescendants()) do
-                -- Only targets items in map folders, not player bases
-                if item:IsA("ProximityPrompt") and not item:IsDescendantOf(workspace:FindFirstChild("Bases") or workspace) then
-                    fireproximityprompt(item)
+                if item:IsA("ProximityPrompt") then
+                    local isBase = item:FindFirstAncestor("Bases") or item:FindFirstAncestor("Plots")
+                    if not isBase then
+                        fireproximityprompt(item)
+                    end
                 end
             end
         end
 
-        -- Fixed Wave Timer/Alert Logic
+        -- FIXED WAVE TIMER/ALERT
         if TsunamiAlertEnabled or WaveTimerEnabled then
             alertLabel.Visible = true
-            if tsunami and tsunami:IsA("BasePart") then
+            if tsunami and tsunami:IsA("BasePart") and root then
                 waveActive = true
                 local dist = (root.Position - tsunami.Position).Magnitude
-                alertLabel.Text = "🌊 WAVE ACTIVE | DIST: " .. math.round(dist)
-                alertLabel.TextColor3 = Color3.new(1, 0, 0)
+                alertLabel.Text = "WAVE ACTIVE | DIST: " .. math.round(dist)
+                alertLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
                 lastWaveTime = tick()
             else
                 if waveActive then waveActive = false lastWaveTime = tick() end
                 local timeLeft = math.max(0, 20 - (tick() - lastWaveTime))
-                alertLabel.Text = "⌛ SAFE - NEXT WAVE: " .. string.format("%.1fs", timeLeft)
-                alertLabel.TextColor3 = Color3.new(0, 1, 0)
+                alertLabel.Text = "SAFE - NEXT WAVE: " .. string.format("%.1fs", timeLeft)
+                alertLabel.TextColor3 = Color3.fromRGB(150, 255, 150)
             end
         else
             alertLabel.Visible = false
         end
 
-        -- Fixed Hitbox Visibility
+        -- FIXED HITBOX (Targeting Players Only)
         if HitboxEnabled then
             for _, p in pairs(game.Players:GetPlayers()) do
                 if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-                    local hrp = p.Character.HumanoidRootPart
-                    hrp.Size = Vector3.new(_G.HitboxSizeValue, _G.HitboxSizeValue, _G.HitboxSizeValue)
-                    hrp.Transparency = 0.7
-                    hrp.BrickColor = BrickColor.new("Really red")
-                    hrp.Material = Enum.Material.Neon
-                    hrp.CanCollide = false
+                    local targetRoot = p.Character.HumanoidRootPart
+                    targetRoot.Size = Vector3.new(_G.HitboxSizeValue, _G.HitboxSizeValue, _G.HitboxSizeValue)
+                    targetRoot.Transparency = 0.7
+                    targetRoot.BrickColor = BrickColor.new("Lavender")
+                    targetRoot.Material = Enum.Material.Neon
+                    targetRoot.CanCollide = false
                 end
             end
         end
 
-        -- ESP Logic
+        -- HIGHEST ESP
         if ESPEnabled then
-            for _, item in pairs(workspace:GetDescendants()) do
-                if item:IsA("ProximityPrompt") and item.Parent:IsA("BasePart") then
-                    if not item.Parent:FindFirstChild("Highlight") then
-                        local h = Instance.new("Highlight", item.Parent)
-                        h.FillColor = Color3.new(1, 1, 0)
-                        h.OutlineColor = Color3.new(1, 1, 1)
+            for _, obj in pairs(workspace:GetDescendants()) do
+                if obj:IsA("ProximityPrompt") and obj.Parent:IsA("BasePart") then
+                    if not obj.Parent:FindFirstChild("Highlight") then
+                        local h = Instance.new("Highlight", obj.Parent)
+                        -- Colors purple for rare, yellow for normal
+                        h.FillColor = (obj.ObjectText:lower():find("secret") or obj.ObjectText:lower():find("rare")) and Color3.new(1,0,1) or Color3.new(1,1,0)
                     end
                 end
             end
@@ -201,7 +196,7 @@ task.spawn(function()
     end
 end)
 
--- Noclip & Infinite Jump
+-- NO CLIP & JUMP REQUEST
 game:GetService("RunService").Stepped:Connect(function()
     if NoclipEnabled and player.Character then
         for _, v in pairs(player.Character:GetDescendants()) do if v:IsA("BasePart") then v.CanCollide = false end end
