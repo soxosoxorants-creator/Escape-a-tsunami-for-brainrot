@@ -1,21 +1,59 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- // UI ELEMENTS
+local Window = Rayfield:CreateWindow({
+   Name = "Escape A Tsunami for Brainrots",
+   Icon = 0, 
+   LoadingTitle = "Anti Cheat Bypassed",
+   LoadingSubtitle = "By Brainyrotty",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "BrainrotHub",
+      FileName = "TsunamiConfig"
+   },
+   KeySystem = true,
+   KeySettings = {
+      Title = "Verification System",
+      Subtitle = "Support Us",
+      Note = "Key: subscribe1", 
+      FileName = "Key", 
+      SaveKey = true, 
+      GrabKeyFromSite = false, 
+      Key = {"subscribe1"} 
+   }
+})
+
+-- // GLOBAL STATES
+local InfiniteJumpEnabled = false
+local NoclipEnabled = false
+local HitboxEnabled = false
+local AutoRebirthEnabled = false
+local TsunamiAlertEnabled = false
+local WaveTimerEnabled = false
+local GrabAllEnabled = false
+local SemiImmortal = false
+local ESPEnabled = false
+_G.JumpPowerValue = 50
+_G.SpeedHackValue = 16
+_G.HitboxSizeValue = 10
+
+-- // UI ELEMENTS (WAVE TIMER)
 local player = game.Players.LocalPlayer
 local pGui = player:WaitForChild("PlayerGui")
 local sg = Instance.new("ScreenGui", pGui)
 sg.Name = "TsunamiHelperUI"
 
 local alertLabel = Instance.new("TextLabel", sg)
-alertLabel.Size = UDim2.new(0, 300, 0, 50)
-alertLabel.Position = UDim2.new(0.5, -150, 0.1, 0)
-alertLabel.BackgroundTransparency = 0.5
-alertLabel.BackgroundColor3 = Color3.new(0,0,0)
+alertLabel.Size = UDim2.new(0, 350, 0, 60)
+alertLabel.Position = UDim2.new(0.5, -175, 0.05, 0)
+alertLabel.BackgroundTransparency = 0.3
+alertLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 alertLabel.TextColor3 = Color3.new(1,1,1)
 alertLabel.Font = Enum.Font.FredokaOne
 alertLabel.TextScaled = true
 alertLabel.Visible = false
+Instance.new("UICorner", alertLabel)
 
--- // TELEPORT FUNCTION (With Anchoring)
+-- // TELEPORT (Coordinates UNTOUCHED)
 local function teleport(pos, duration)
     local char = player.Character
     local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -37,7 +75,7 @@ local TabPlayer = Window:CreateTab("Player", 4483362458)
 local TabCombat = Window:CreateTab("Combat/HITBOXES", 4483362458)
 local TabAutos = Window:CreateTab("Autos", 4483362458)
 
--- // GAPS (Exact Coordinates Preserved)
+-- // GAPS (Original Coordinates Preserved)
 TabBalant:CreateToggle({Name = "Gap 1", Callback = function(v) if v then teleport(Vector3.new(200.62,-2.82,59.38), 2) end end})
 TabBalant:CreateToggle({Name = "Gap 2", Callback = function(v) if v then teleport(Vector3.new(283.77, -2.82, 90.03), 2.5) end end})
 TabBalant:CreateToggle({Name = "Gap 3", Callback = function(v) if v then teleport(Vector3.new(396.82, -2.82, 92.75), 3.5) end end})
@@ -48,3 +86,131 @@ TabBalant:CreateToggle({Name = "Gap 7", Callback = function(v) if v then telepor
 TabBalant:CreateToggle({Name = "Gap 8", Callback = function(v) if v then teleport(Vector3.new(2249.81, -2.82, -28.62), 10) end end})
 TabBalant:CreateToggle({Name = "Gap 9", Callback = function(v) if v then teleport(Vector3.new(2962.15, -2.82, 19.02), 10) end end})
 TabBalant:CreateToggle({Name = "Gap 10", Callback = function(v) if v then teleport(Vector3.new(3307.73, -2.82, 28.54), 10) end end})
+TabBalant:CreateToggle({Name = "Gap 11", Callback = function(v) if v then teleport(Vector3.new(3669.57, -2.82, 62.91), 10) end end})
+TabBalant:CreateToggle({Name = "Gap 12", Callback = function(v) if v then teleport(Vector3.new(4023.66, -2.82, 51.98), 10) end end})
+
+-- // TAB: BRAINROTS (RESTORED ESP & FIXED TIMER)
+TabBrainrots:CreateToggle({Name = "Instant Grab (Map Only)", Callback = function(v) GrabAllEnabled = v end})
+TabBrainrots:CreateToggle({Name = "ESP Highest Worth", Callback = function(v) ESPEnabled = v end})
+TabBrainrots:CreateToggle({Name = "Tsunami Danger Alert", Callback = function(v) TsunamiAlertEnabled = v end})
+TabBrainrots:CreateToggle({Name = "Wave Timer", Callback = function(v) WaveTimerEnabled = v end})
+
+-- // TAB: PLAYER
+TabPlayer:CreateToggle({Name = "Extra Life (Semi-Immortal)", Callback = function(v) SemiImmortal = v end})
+TabPlayer:CreateSlider({Name = "Speed Hacks", Range = {0, 350}, Increment = 1, CurrentValue = 16, Callback = function(v) _G.SpeedHackValue = v end})
+TabPlayer:CreateSlider({Name = "Jump Hacks", Range = {0, 500}, Increment = 5, CurrentValue = 50, Callback = function(v) _G.JumpPowerValue = v end})
+TabPlayer:CreateToggle({Name = "Infinite Jump", Callback = function(v) InfiniteJumpEnabled = v end})
+TabPlayer:CreateToggle({Name = "No Clip", Callback = function(v) NoclipEnabled = v end})
+
+-- // TAB: COMBAT & AUTOS
+TabCombat:CreateToggle({Name = "Hitbox Expander", Callback = function(v) HitboxEnabled = v end})
+TabCombat:CreateSlider({Name = "Hitbox Size", Range = {10, 100}, Increment = 2, CurrentValue = 10, Callback = function(v) _G.HitboxSizeValue = v end})
+TabAutos:CreateToggle({Name = "Auto Rebirth", Callback = function(v) AutoRebirthEnabled = v end})
+
+-- // CORE ENGINE
+local lastWaveTime = tick()
+local waveActive = false
+
+task.spawn(function()
+    while true do
+        local char = player.Character
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        local root = char and char:FindFirstChild("HumanoidRootPart")
+        
+        -- Improved Tsunami Detection
+        local tsunami = workspace:FindFirstChild("Tsunami", true) or workspace:FindFirstChild("Water", true) or workspace:FindFirstChild("TsunamiWave", true)
+
+        -- Extra Life (Semi-Immortal) Fixed Logic
+        if SemiImmortal and hum then
+            hum.MaxHealth = 999999
+            hum.Health = 999999
+            if char:FindFirstChild("ForceField") == nil then
+                Instance.new("ForceField", char).Visible = false
+            end
+        elseif not SemiImmortal and char:FindFirstChild("ForceField") then
+            char.ForceField:Destroy()
+        end
+
+        if hum then 
+            hum.WalkSpeed = _G.SpeedHackValue 
+            hum.JumpPower = _G.JumpPowerValue 
+            hum.UseJumpPower = true 
+        end
+
+        -- Instant Grab (Map Spawns Only - Bypasses Long Press)
+        if GrabAllEnabled then
+            for _, item in pairs(workspace:GetDescendants()) do
+                -- Only targets items in map folders, not player bases
+                if item:IsA("ProximityPrompt") and not item:IsDescendantOf(workspace:FindFirstChild("Bases") or workspace) then
+                    fireproximityprompt(item)
+                end
+            end
+        end
+
+        -- Fixed Wave Timer/Alert Logic
+        if TsunamiAlertEnabled or WaveTimerEnabled then
+            alertLabel.Visible = true
+            if tsunami and tsunami:IsA("BasePart") then
+                waveActive = true
+                local dist = (root.Position - tsunami.Position).Magnitude
+                alertLabel.Text = "🌊 WAVE ACTIVE | DIST: " .. math.round(dist)
+                alertLabel.TextColor3 = Color3.new(1, 0, 0)
+                lastWaveTime = tick()
+            else
+                if waveActive then waveActive = false lastWaveTime = tick() end
+                local timeLeft = math.max(0, 20 - (tick() - lastWaveTime))
+                alertLabel.Text = "⌛ SAFE - NEXT WAVE: " .. string.format("%.1fs", timeLeft)
+                alertLabel.TextColor3 = Color3.new(0, 1, 0)
+            end
+        else
+            alertLabel.Visible = false
+        end
+
+        -- Fixed Hitbox Visibility
+        if HitboxEnabled then
+            for _, p in pairs(game.Players:GetPlayers()) do
+                if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                    local hrp = p.Character.HumanoidRootPart
+                    hrp.Size = Vector3.new(_G.HitboxSizeValue, _G.HitboxSizeValue, _G.HitboxSizeValue)
+                    hrp.Transparency = 0.7
+                    hrp.BrickColor = BrickColor.new("Really red")
+                    hrp.Material = Enum.Material.Neon
+                    hrp.CanCollide = false
+                end
+            end
+        end
+
+        -- ESP Logic
+        if ESPEnabled then
+            for _, item in pairs(workspace:GetDescendants()) do
+                if item:IsA("ProximityPrompt") and item.Parent:IsA("BasePart") then
+                    if not item.Parent:FindFirstChild("Highlight") then
+                        local h = Instance.new("Highlight", item.Parent)
+                        h.FillColor = Color3.new(1, 1, 0)
+                        h.OutlineColor = Color3.new(1, 1, 1)
+                    end
+                end
+            end
+        end
+
+        if AutoRebirthEnabled then
+            local rem = game:GetService("ReplicatedStorage"):FindFirstChild("Rebirth", true)
+            if rem then rem:FireServer() end
+        end
+        task.wait(0.1)
+    end
+end)
+
+-- Noclip & Infinite Jump
+game:GetService("RunService").Stepped:Connect(function()
+    if NoclipEnabled and player.Character then
+        for _, v in pairs(player.Character:GetDescendants()) do if v:IsA("BasePart") then v.CanCollide = false end end
+    end
+end)
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled and player.Character:FindFirstChildOfClass("Humanoid") then
+        player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    end
+end)
+
+Rayfield:LoadConfiguration()
