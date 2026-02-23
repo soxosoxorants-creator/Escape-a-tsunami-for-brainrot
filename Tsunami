@@ -7,14 +7,14 @@ local Window = Rayfield:CreateWindow({
    LoadingSubtitle = "By Brainyrotty",
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = "BrainrotHub", 
-      FileName = "Config"
+      FolderName = "BrainrotHub",
+      FileName = "TsunamiConfig"
    },
    KeySystem = true,
    KeySettings = {
       Title = "Verification System",
       Subtitle = "Support Us",
-      Note = "Key is: subscribe1", 
+      Note = "Key: subscribe1", 
       FileName = "Key", 
       SaveKey = true, 
       GrabKeyFromSite = false, 
@@ -22,200 +22,167 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
--- VARIABLES (The "Switches")
+-- // GLOBAL STATES
 local InfiniteJumpEnabled = false
 local NoclipEnabled = false
 local HitboxEnabled = false
 local AutoRebirthEnabled = false
-local AutoCashEnabled = false
 local TsunamiAlertEnabled = false
-local ESPEnabled = false
-local ExtraLifeEnabled = false
-
+local WaveTimerEnabled = false
+local GrabAllEnabled = false
+local SemiImmortal = false
 _G.JumpPowerValue = 50
 _G.SpeedHackValue = 16
 _G.HitboxSizeValue = 10
 
--- TWEEN FUNCTION (For Gaps)
-local function TweenTo(pos, time)
-    local char = game.Players.LocalPlayer.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        local hrp = char.HumanoidRootPart
-        hrp.Anchored = true
-        local tween = game:GetService("TweenService"):Create(hrp, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(pos)})
+-- // UI ELEMENTS
+local player = game.Players.LocalPlayer
+local pGui = player:WaitForChild("PlayerGui")
+local sg = Instance.new("ScreenGui", pGui)
+sg.Name = "TsunamiHelperUI"
+
+local alertLabel = Instance.new("TextLabel", sg)
+alertLabel.Size = UDim2.new(0, 300, 0, 50)
+alertLabel.Position = UDim2.new(0.5, -150, 0.1, 0)
+alertLabel.BackgroundTransparency = 0.5
+alertLabel.BackgroundColor3 = Color3.new(0,0,0)
+alertLabel.TextColor3 = Color3.new(1,1,1)
+alertLabel.Font = Enum.Font.FredokaOne
+alertLabel.TextScaled = true
+alertLabel.Visible = false
+
+-- // TELEPORT FUNCTION (With Anchoring)
+local function teleport(pos, duration)
+    local char = player.Character
+    local root = char and char:FindFirstChild("HumanoidRootPart")
+    if root then
+        root.Anchored = true
+        local tween = game:GetService("TweenService"):Create(root, TweenInfo.new(duration, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(pos)})
         tween:Play()
-        tween.Completed:Connect(function() hrp.Anchored = false end)
+        tween.Completed:Connect(function() 
+            task.wait(0.1)
+            root.Anchored = false 
+        end)
     end
 end
 
----------------------------------------------------------
--- TABS
----------------------------------------------------------
+-- // TABS
 local TabBalant = Window:CreateTab("Balant", 4483362458)
 local TabBrainrots = Window:CreateTab("Brainrots", 4483362458)
 local TabPlayer = Window:CreateTab("Player", 4483362458)
+local TabCombat = Window:CreateTab("Combat/HITBOXES", 4483362458)
 local TabAutos = Window:CreateTab("Autos", 4483362458)
 
----------------------------------------------------------
--- GAPS (TAB 1) - Updated XYZ
----------------------------------------------------------
-TabBalant:CreateSection("Safe Zone Teleports")
-TabBalant:CreateButton({Name = "Gap 1 (Start)", Callback = function() TweenTo(Vector3.new(0, 3, 150), 2) end})
-TabBalant:CreateButton({Name = "Gap 2 (Rare)", Callback = function() TweenTo(Vector3.new(0, 3, 350), 2.5) end})
-TabBalant:CreateButton({Name = "Gap 3 (Epic)", Callback = function() TweenTo(Vector3.new(0, 3, 600), 3) end})
-TabBalant:CreateButton({Name = "Gap 4 (Legendary)", Callback = function() TweenTo(Vector3.new(0, 3, 900), 4) end})
-TabBalant:CreateButton({Name = "Gap 5 (Mythic)", Callback = function() TweenTo(Vector3.new(0, 3, 1300), 5) end})
-TabBalant:CreateButton({Name = "Gap 6 (Cosmic)", Callback = function() TweenTo(Vector3.new(0, 3, 1750), 6) end})
-TabBalant:CreateButton({Name = "Gap 7 (Secret)", Callback = function() TweenTo(Vector3.new(0, 3, 2300), 7) end})
-TabBalant:CreateButton({Name = "Gap 8 (Celestial)", Callback = function() TweenTo(Vector3.new(0, 3, 2900), 8) end})
+-- // GAPS (Exact Coordinates Preserved)
+TabBalant:CreateToggle({Name = "Gap 1", Callback = function(v) if v then teleport(Vector3.new(200.62,-2.82,59.38), 2) end end})
+TabBalant:CreateToggle({Name = "Gap 2", Callback = function(v) if v then teleport(Vector3.new(283.77, -2.82, 90.03), 2.5) end end})
+TabBalant:CreateToggle({Name = "Gap 3", Callback = function(v) if v then teleport(Vector3.new(396.82, -2.82, 92.75), 3.5) end end})
+TabBalant:CreateToggle({Name = "Gap 4", Callback = function(v) if v then teleport(Vector3.new(544.71, -2.82, 114.49), 4.5) end end})
+TabBalant:CreateToggle({Name = "Gap 5", Callback = function(v) if v then teleport(Vector3.new(758.23, -2.82, 114.33), 5.5) end end})
+TabBalant:CreateToggle({Name = "Gap 6", Callback = function(v) if v then teleport(Vector3.new(1075.97, -2.82, 100.13), 7) end end})
+TabBalant:CreateToggle({Name = "Gap 7", Callback = function(v) if v then teleport(Vector3.new(1551.08, -2.82, 88.94), 8.5) end end})
+TabBalant:CreateToggle({Name = "Gap 8", Callback = function(v) if v then teleport(Vector3.new(2249.81, -2.82, -28.62), 10) end end})
+TabBalant:CreateToggle({Name = "Gap 9", Callback = function(v) if v then teleport(Vector3.new(2962.15, -2.82, 19.02), 10) end end})
+TabBalant:CreateToggle({Name = "Gap 10", Callback = function(v) if v then teleport(Vector3.new(3307.73, -2.82, 28.54), 10) end end})
+TabBalant:CreateToggle({Name = "Gap 11", Callback = function(v) if v then teleport(Vector3.new(3669.57, -2.82, 62.91), 10) end end})
+TabBalant:CreateToggle({Name = "Gap 12", Callback = function(v) if v then teleport(Vector3.new(4023.66, -2.82, 51.98), 10) end end})
 
----------------------------------------------------------
--- BRAINROTS (TAB 2)
----------------------------------------------------------
-TabBrainrots:CreateToggle({
-    Name = "ESP High Tier",
-    CurrentValue = false,
-    Callback = function(Value) ESPEnabled = Value end
-})
+-- // TAB: BRAINROTS
+TabBrainrots:CreateToggle({Name = "Instant Grab (No Hold)", Callback = function(v) GrabAllEnabled = v end})
+TabBrainrots:CreateToggle({Name = "Tsunami Danger Alert", Callback = function(v) TsunamiAlertEnabled = v end})
+TabBrainrots:CreateToggle({Name = "Wave Timer", Callback = function(v) WaveTimerEnabled = v end})
 
-TabBrainrots:CreateButton({
-    Name = "Instant Grab All",
-    Callback = function()
-        local folder = workspace:FindFirstChild("Brainrots") or workspace:FindFirstChild("Drops")
-        if folder then
-            for _, v in pairs(folder:GetDescendants()) do
-                if v:IsA("ProximityPrompt") then fireproximityprompt(v) end
-            end
-        end
-    end
-})
+-- // TAB: PLAYER
+TabPlayer:CreateToggle({Name = "Extra Life (Semi-Immortal)", Callback = function(v) SemiImmortal = v end})
+TabPlayer:CreateSlider({Name = "Speed Hacks", Range = {0, 350}, Increment = 1, CurrentValue = 16, Callback = function(v) _G.SpeedHackValue = v end})
+TabPlayer:CreateSlider({Name = "Jump Hacks", Range = {0, 500}, Increment = 5, CurrentValue = 50, Callback = function(v) _G.JumpPowerValue = v end})
+TabPlayer:CreateToggle({Name = "Infinite Jump", Callback = function(v) InfiniteJumpEnabled = v end})
+TabPlayer:CreateToggle({Name = "No Clip", Callback = function(v) NoclipEnabled = v end})
 
-TabBrainrots:CreateToggle({
-    Name = "Hitbox Expander",
-    CurrentValue = false,
-    Callback = function(Value) HitboxEnabled = Value end
-})
+-- // TAB: COMBAT & AUTOS
+TabCombat:CreateToggle({Name = "Hitbox Expander", Callback = function(v) HitboxEnabled = v end})
+TabCombat:CreateSlider({Name = "Hitbox Size", Range = {0, 100}, Increment = 5, CurrentValue = 10, Callback = function(v) _G.HitboxSizeValue = v end})
+TabAutos:CreateToggle({Name = "Auto Rebirth", Callback = function(v) AutoRebirthEnabled = v end})
 
-TabBrainrots:CreateSlider({
-    Name = "Hitbox Size",
-    Range = {10, 100},
-    Increment = 5,
-    CurrentValue = 10,
-    Callback = function(Value) _G.HitboxSizeValue = Value end
-})
+-- // CORE ENGINE
+local lastWaveTime = tick()
+local waveActive = false
 
----------------------------------------------------------
--- PLAYER (TAB 3)
----------------------------------------------------------
-TabPlayer:CreateSlider({
-    Name = "Speed",
-    Range = {16, 350},
-    Increment = 1,
-    CurrentValue = 16,
-    Callback = function(Value) _G.SpeedHackValue = Value end
-})
-
-TabPlayer:CreateToggle({
-    Name = "Infinite Jump",
-    CurrentValue = false,
-    Callback = function(Value) InfiniteJumpEnabled = Value end
-})
-
-TabPlayer:CreateToggle({
-    Name = "No Clip",
-    CurrentValue = false,
-    Callback = function(Value) NoclipEnabled = Value end
-})
-
-TabPlayer:CreateToggle({
-    Name = "Extra Life (God)",
-    CurrentValue = false,
-    Callback = function(Value) ExtraLifeEnabled = Value end
-})
-
----------------------------------------------------------
--- AUTOS (TAB 4)
----------------------------------------------------------
-TabAutos:CreateToggle({
-    Name = "Tsunami Danger Alert",
-    CurrentValue = false,
-    Callback = function(Value) TsunamiAlertEnabled = Value end
-})
-
-TabAutos:CreateToggle({
-    Name = "Auto Collect Cash",
-    CurrentValue = false,
-    Callback = function(Value) AutoCashEnabled = Value end
-})
-
-TabAutos:CreateToggle({
-    Name = "Auto Rebirth",
-    CurrentValue = false,
-    Callback = function(Value) AutoRebirthEnabled = Value end
-})
-
----------------------------------------------------------
--- THE ENGINE (LOOPS)
----------------------------------------------------------
-
--- Speed & Jump Power
 task.spawn(function()
-    while task.wait(0.1) do
-        local hum = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+    while true do
+        local char = player.Character
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        local root = char and char:FindFirstChild("HumanoidRootPart")
+        local tsunami = workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Water")
+
+        if SemiImmortal and hum then
+            hum.MaxHealth = 9e9
+            hum.Health = 9e9
+        end
+
         if hum then
             hum.WalkSpeed = _G.SpeedHackValue
             hum.JumpPower = _G.JumpPowerValue
             hum.UseJumpPower = true
-            if ExtraLifeEnabled then hum.Health = hum.MaxHealth end
         end
-    end
-end)
 
--- Noclip
-game:GetService("RunService").Stepped:Connect(function()
-    if NoclipEnabled and game.Players.LocalPlayer.Character then
-        for _, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-            if v:IsA("BasePart") then v.CanCollide = false end
-        end
-    end
-end)
-
--- Inf Jump
-game:GetService("UserInputService").JumpRequest:Connect(function()
-    if InfiniteJumpEnabled and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-        game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-    end
-end)
-
--- Hitbox Expander Loop
-task.spawn(function()
-    while task.wait(2) do
-        if HitboxEnabled then
-            for _, v in pairs(workspace:GetDescendants()) do
-                if v:IsA("TouchTransmitter") and v.Parent:IsA("BasePart") then
-                    v.Parent.Size = Vector3.new(_G.HitboxSizeValue, _G.HitboxSizeValue, _G.HitboxSizeValue)
-                    v.Parent.CanCollide = false
+        -- UPDATED INSTANT GRAB (Bypasses Hold Duration)
+        if GrabAllEnabled then
+            for _, item in pairs(workspace:GetDescendants()) do
+                if item:IsA("ProximityPrompt") then
+                    -- This function bypasses the "Long Press" requirement
+                    fireproximityprompt(item)
                 end
             end
         end
-    end
-end)
 
--- Auto Rebirth & Cash
-task.spawn(function()
-    while task.wait(1) do
+        if TsunamiAlertEnabled or WaveTimerEnabled then
+            alertLabel.Visible = true
+            if tsunami and root then
+                waveActive = true
+                local dist = math.abs(root.Position.Z - tsunami.Position.Z)
+                alertLabel.Text = "WAVE ACTIVE | DISTANCE: " .. math.round(dist)
+                alertLabel.TextColor3 = Color3.new(1, 0, 0)
+                lastWaveTime = tick()
+            else
+                if waveActive then waveActive = false lastWaveTime = tick() end
+                local timeLeft = math.max(0, 20 - (tick() - lastWaveTime))
+                alertLabel.Text = string.format("Next Wave in: %.1fs", timeLeft)
+                alertLabel.TextColor3 = Color3.new(0, 1, 0)
+            end
+        else
+            alertLabel.Visible = false
+        end
+
+        if HitboxEnabled then
+            for _, p in pairs(game.Players:GetPlayers()) do
+                if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                    p.Character.HumanoidRootPart.Size = Vector3.new(_G.HitboxSizeValue, _G.HitboxSizeValue, _G.HitboxSizeValue)
+                    p.Character.HumanoidRootPart.CanCollide = false
+                end
+            end
+        end
+
         if AutoRebirthEnabled then
             local rem = game:GetService("ReplicatedStorage"):FindFirstChild("Rebirth", true)
             if rem then rem:FireServer() end
         end
-        if AutoCashEnabled then
-            for _, v in pairs(workspace:GetDescendants()) do
-                if (v.Name == "Cash" or v.Name == "Coin") and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude < 150 then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-                end
-            end
-        end
+        task.wait(0.1) 
     end
 end)
 
-Rayfield:Notify({Title = "Brainrot Hub Ready", Content = "Script successfully executed!", Duration = 5})
+-- Event Handlers
+game:GetService("RunService").Stepped:Connect(function()
+    if NoclipEnabled and player.Character then
+        for _, v in pairs(player.Character:GetDescendants()) do
+            if v:IsA("BasePart") then v.CanCollide = false end
+        end
+    end
+end)
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled and player.Character:FindFirstChildOfClass("Humanoid") then
+        player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    end
+end)
+
+Rayfield:LoadConfiguration()
